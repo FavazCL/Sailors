@@ -1,0 +1,132 @@
+.reserve {
+    padding-bottom: 30px;
+
+    .reserve-header {
+
+    }
+
+    .reserve-content {
+        .reserve-content-operation {
+            .operation-header {
+                text-align: center;
+                padding: 10px 0;
+            }
+
+            .operation-buttons {
+                text-align: center;
+                padding: 10px 0;
+
+                a {
+                    margin: 0 10px;
+                }
+            }
+        }
+
+        .reserve-listAll {
+            border: 1px solid darkgray;
+            border-radius: 2px;
+            display: flex;
+            padding: 20px 0;
+            margin: 0 10px;
+            
+            .reserve-listAll-boats {
+                width: 50%;
+                display: flex;
+                justify-content: center;
+                overflow-y: scroll;
+                height: 200px;
+            }
+
+            .reserve-listAll-sailors {
+                width: 50%;
+                display: flex;
+                justify-content: center;
+                overflow-y: scroll;
+                height: 200px;
+            }
+        }
+
+        .operations {
+            display: flex;
+            padding: 20px 0;
+
+            .reserve-form {
+                width: 30%;
+                margin: 0 10px;
+                border: 1px solid darkgray;
+                border-radius: 2px;
+                padding: 5px 10px;
+    
+                .field {
+                    &:last-child {
+                        text-align: right;
+    
+                        a {
+                            margin: 0 5px;
+                        }
+                    }
+                }
+            }
+    
+            .reserve-list {
+                width: 70%;
+                margin: 0 10px;
+                border: 1px solid darkgray;
+                border-radius: 2px;
+                overflow-y: scroll;
+                height: 300px;
+                
+                .table {
+                    width: 100%;
+                }
+            }
+        }
+
+        .reserve-details {
+            border: 1px solid darkgray;
+            border-radius: 2px;
+            display: flex;
+            padding: 20px 0;
+            margin: 0 10px;
+            
+            .reserve-listAll-boats {
+                width: 50%;
+                display: flex;
+                justify-content: center;
+            }
+
+            .reserve-listAll-sailors {
+                width: 50%;
+                display: flex;
+                justify-content: center;
+            }
+        }
+
+        .reserve-filter {
+            display: flex;
+            padding: 20px 0;
+            width: 100%;
+
+            .reserve-filter-form {
+                width: 30%;
+                margin: 0 10px;
+                border: 1px solid darkgray;
+                border-radius: 2px;
+                padding: 5px 10px;
+            }
+
+            .reserve-filter-table {
+                width: 70%;
+                margin: 0 10px;
+                border: 1px solid darkgray;
+                border-radius: 2px;
+                height: 300px;
+                overflow-y: scroll;
+
+                .table {
+                    width: 100%;
+                }
+            }
+        }
+    }
+}

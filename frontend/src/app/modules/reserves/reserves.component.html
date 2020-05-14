@@ -1,0 +1,358 @@
+<div class="reserve">
+  <app-navbar></app-navbar>
+  <div class="reserve-header">
+    <section class="hero is-medium is-danger is-bold">
+      <div class="hero-body">
+        <div class="container">
+          <h1 class="title">
+            Sección de Reservas <i class="fas fa-crop-alt"></i>
+          </h1>
+          <h2 class="subtitle">
+            Crea, actualice y elimine reservas.
+          </h2>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="reserve-content">
+    <div class="reserve-content-operation">
+      <div class="operation-header">
+        <p class="title is-3">Seleccione una operación:</p>
+        <p class="subtitle is-5">Las operaciones de actualizar y eliminar esta en la tabla de reserves. </p>
+      </div>
+      <div class="operation-buttons">
+        <a class="button is-primary" #create (click)="create.show = !create.show">Crear nueva reserva</a>
+        <a class="button is-warning" #list (click)="list.show = !list.show">Listar reservas</a>
+        <a class="button is-danger" #listAll (click)="listAll.show = !listAll.show">Listar Tablas de marineros y
+          botes</a>
+        <a class="button is-success" (click)="getReserveDetails()">Master Detail</a>
+      </div>
+    </div>
+    <div class="reserve-listAll" *ngIf="listAll.show">
+      <div class="reserve-listAll-boats">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>ID Bote</th>
+              <th>Nombre</th>
+              <th>Color</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let boat of boats; let i = index">
+              <th>{{ i }}</th>
+              <td>{{ boat.id }} </td>
+              <td>{{ boat.name }}</td>
+              <td>{{ boat.color }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="reserve-listAll-sailors">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>ID Marinero</th>
+              <th>Nombre</th>
+              <th>Calificación</th>
+              <th>Edad</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let sailor of sailors; let i = index">
+              <th>{{ i }}</th>
+              <td>{{ sailor.id }}</td>
+              <td>{{ sailor.name }}</td>
+              <td>{{ sailor.rating }}</td>
+              <td>{{ sailor.age }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="operations">
+      <div class="reserve-form" *ngIf="create.show">
+        <form (submit)="createReserve(sailor.value, boat.value, day.value)">
+          <div class="field">
+            <label class="label">ID Marinero</label>
+            <div class="control has-icons-left has-icons-right">
+              <input class="input is-success" type="text" placeholder="Ingrese id del marinero:"
+                [value]="reserve.sailor ? reserve.sailor: ''" #sailor>
+              <span class="icon is-small is-left">
+                <i class="fas fa-user"></i>
+              </span>
+              <span class="icon is-small is-right">
+                <i class="fas fa-check"></i>
+              </span>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label">ID Bote</label>
+            <div class="control has-icons-left has-icons-right">
+              <input class="input is-success" type="text" placeholder="Ingrese id del bote:"
+                [value]="reserve.boat ? reserve.boat: ''" #boat>
+              <span class="icon is-small is-left">
+                <i class="fas fa-palette"></i>
+              </span>
+              <span class="icon is-small is-right">
+                <i class="fas fa-check"></i>
+              </span>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label">Día</label>
+            <div class="control has-icons-left has-icons-right">
+              <input class="input is-success" type="date" placeholder="Ingrese fecha:"
+                [value]="reserve.day ? reserve.day: ''" #day>
+              <span class="icon is-small is-left">
+                <i class="fas fa-palette"></i>
+              </span>
+              <span class="icon is-small is-right">
+                <i class="fas fa-check"></i>
+              </span>
+            </div>
+          </div>
+
+          <div class="field">
+            <button class="button is-success is-outlined" type="submit">Crear</button>
+          </div>
+        </form>
+      </div>
+      <div class="reserve-list" *ngIf="list.show">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>ID Marinero</th>
+              <th>ID Bote</th>
+              <th>Día</th>
+              <th>Operaciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let reserve of reserves; let i = index">
+              <th>{{ i }}</th>
+              <td>{{ reserve.sailor }} </td>
+              <td>{{ reserve.boat }}</td>
+              <td>{{ reserve.day }}</td>
+              <td>
+                <a class="button is-info" style="margin: 0 5px;" (click)=currentlyReserve(reserve)><i
+                    class="fas fa-edit"></i></a>
+                <a class="button is-danger" (click)="deleteReserve(reserve.id)"> <i class="fas fa-trash-alt"></i></a>
+
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal {{ edit }} {{ close }}">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+          <header class="modal-card-head">
+            <p class="modal-card-title">Actualizar Reserva</p>
+            <button class="delete" (click)="closeModal()" aria-label="close"></button>
+          </header>
+          <section class="modal-card-body">
+            <form>
+              <div class="field">
+                <label class="label">ID Marinero</label>
+                <div class="control has-icons-left has-icons-right">
+                  <input class="input is-success" type="text" placeholder="Ingrese id marinero:"
+                    [value]="reserve.sailor ? reserve.sailor: ''" #sailor>
+                  <span class="icon is-small is-left">
+                    <i class="fas fa-user"></i>
+                  </span>
+                  <span class="icon is-small is-right">
+                    <i class="fas fa-check"></i>
+                  </span>
+                </div>
+              </div>
+
+              <div class="field">
+                <label class="label">ID bote</label>
+                <div class="control has-icons-left has-icons-right">
+                  <input class="input is-success" type="text" placeholder="Ingrese id del bote:"
+                    [value]="reserve.boat ? reserve.boat: ''" #boat>
+                  <span class="icon is-small is-left">
+                    <i class="fas fa-palette"></i>
+                  </span>
+                  <span class="icon is-small is-right">
+                    <i class="fas fa-check"></i>
+                  </span>
+                </div>
+              </div>
+
+              <div class="field">
+                <label class="label">Día</label>
+                <div class="control has-icons-left has-icons-right">
+                  <input class="input is-success" type="date" placeholder="Ingrese fecha:"
+                    [value]="reserve.day ? reserve.day: ''" #day>
+                  <span class="icon is-small is-left">
+                    <i class="fas fa-palette"></i>
+                  </span>
+                  <span class="icon is-small is-right">
+                    <i class="fas fa-check"></i>
+                  </span>
+                </div>
+              </div>
+
+            </form>
+          </section>
+          <footer class="modal-card-foot">
+            <button class="button is-success"
+              (click)="updateReserve(reserve.id, sailor.value, boat.value, day.value)">Actualizar</button>
+            <button class="button" (click)="closeModal()">Cerrar</button>
+          </footer>
+        </div>
+      </div>
+    </div>
+
+    <div class="reserve-filter">
+      <div class="reserve-filter-form">
+        <form>
+          <div class="field">
+            <label class="label">Master detail por sailor </label>
+            <div class="control has-icons-left has-icons-right">
+              <input class="input is-success" type="text" placeholder="Ingrese id sailor:" #p_sailor>
+              <span class="icon is-small is-left">
+                <i class="fas fa-sort-numeric-up-alt"></i>
+              </span>
+              <span class="icon is-small is-right">
+                <i class="fas fa-check"></i>
+              </span>
+            </div>
+          </div>
+          <div class="field">
+            <button class="button is-success" (click)="getDetailsBySailor(p_sailor.value)">Filtrar</button>
+          </div>
+        </form>
+      </div>
+      <div class="reserve-filter-table">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>ID Marinero</th>
+              <th>Nombre</th>
+              <th>Calificación</th>
+              <th>Edad</th>
+              <th>ID Reserva</th>
+              <th>Día</th>
+              <th>ID Bote</th>
+              <th>Nombre</th>
+              <th>Color</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let reserve of reserves_by_sailor; let i = index">
+              <th>{{ i }}</th>
+              <td>{{ reserve.sailor.id }}</td>
+              <td>{{ reserve.sailor.name }}</td>
+              <td>{{ reserve.sailor.rating }}</td>
+              <td>{{ reserve.sailor.age }}</td>
+              <td>{{ reserve.id }}</td>
+              <td>{{ reserve.day }}</td>
+              <td>{{ reserve.boat.id }}</td>
+              <td>{{ reserve.boat.name }}</td>
+              <td>{{ reserve.boat.color }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!--  
+    <div class="reserve-details" *ngIf="details">
+      <div class="reserve-details-reserve">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>ID Reserva</th>
+              <th>ID Marinero </th>
+              <th>ID Bote</th>
+              <th>Día</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let reserve of reserves_by_details; let i = index">
+              <th>{{ i }}</th>
+              <td>{{ reserve.id }} </td>
+              <td>{{ reserve.sailor.id }}</td>
+              <td>{{ reserve.boat.id }}</td>
+              <td>{{ reserve.day }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="reserve-listAll-sailors">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>ID Marinero</th>
+              <th>Nombre</th>
+              <th>Calificación</th>
+              <th>Edad</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let reserve of reserves_by_details; let i = index">
+              <th>{{ i }}</th>
+              <td>{{ reserve.sailor.id }}</td>
+              <td>{{ reserve.sailor.name }}</td>
+              <td>{{ reserve.sailor.rating }}</td>
+              <td>{{ reserve.sailor.age }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="reserve-details-boats">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>ID Bote</th>
+              <th>Nombre</th>
+              <th>Color</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let reserve of reserves_by_details; let i = index">
+              <th>{{ i }}</th>
+              <td>{{ reserve.boat.id }} </td>
+              <td>{{ reserve.boat.name }}</td>
+              <td>{{ reserve.boat.color }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="reserve-listAll-sailors">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>ID Marinero</th>
+              <th>Nombre</th>
+              <th>Calificación</th>
+              <th>Edad</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let reserve of reserves_by_details; let i = index">
+              <th>{{ i }}</th>
+              <td>{{ reserve.sailor.id }}</td>
+              <td>{{ reserve.sailor.name }}</td>
+              <td>{{ reserve.sailor.rating }}</td>
+              <td>{{ reserve.sailor.age }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  -->
+  </div>
+</div>

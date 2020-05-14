@@ -1,0 +1,129 @@
+.boat {
+    padding-bottom: 30px;
+
+    .boat-content {
+        .boat-content-operation {
+            .operation-header {
+                text-align: center;
+                padding: 10px 0;
+            }
+
+            .operation-buttons {
+                text-align: center;
+                padding: 10px 0;
+
+                a {
+                    margin: 0 10px;
+                }
+            }
+        }
+
+        .operations {
+            display: flex;
+            padding: 20px 0;
+
+            .boat-form {
+                width: 30%;
+                margin: 0 10px;
+                border: 1px solid darkgray;
+                border-radius: 2px;
+                padding: 5px 10px;
+    
+                .field {
+                    &:last-child {
+                        text-align: right;
+    
+                        a {
+                            margin: 0 5px;
+                        }
+                    }
+                }
+            }
+    
+            .boat-list {
+                width: 70%;
+                margin: 0 10px;
+                border: 1px solid darkgray;
+                border-radius: 2px;
+                height: 216px;
+                overflow-y: scroll;
+
+                .table {
+                    width: 100%;
+                }
+            }
+        }
+
+        .boat-filter {
+            display: flex;
+            padding: 20px 0;
+            width: 100%;
+
+            .boat-filter-form {
+                width: 30%;
+                margin: 0 10px;
+                border: 1px solid darkgray;
+                border-radius: 2px;
+                padding: 5px 10px;
+            }
+
+            .boat-filter-table {
+                width: 70%;
+                margin: 0 10px;
+                border: 1px solid darkgray;
+                border-radius: 2px;
+                height: 300px;
+                overflow-y: scroll;
+
+                .table {
+                    width: 100%;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 320px) {
+    .boat {
+        .boat-content {
+            .boat-content-operation {
+                .operation-buttons {
+                    flex-direction: column;
+                    display: flex;
+
+                    a {
+                        margin: 5px 10px;
+                    }
+                }
+            }
+
+            .operations {
+                flex-direction: column;
+
+                .boat-form {
+                    width: 100%;
+                    margin: 5px 0;
+                }
+
+                .boat-list {
+                    width: 100%;
+                    margin: 5px 0;
+                }
+            }
+
+            .boat-filter {
+                flex-direction: column;
+
+                .boat-filter-form {
+                    width: 100%;
+                    margin: 5px 0;
+                }
+
+                .boat-filter-table {
+                    width: 100%;
+                    margin: 5px 0;
+                }
+            }
+        }
+    }
+}

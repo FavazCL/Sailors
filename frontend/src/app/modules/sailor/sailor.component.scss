@@ -1,0 +1,135 @@
+.sailor {
+    padding-bottom: 30px;
+
+    .sailor-header {
+
+    }
+
+    .sailor-content {
+        .sailor-content-operation {
+            .operation-header {
+                text-align: center;
+                padding: 10px 0;
+            }
+
+            .operation-buttons {
+                text-align: center;
+                padding: 10px 0;
+
+                a {
+                    margin: 0 10px;
+                }
+            }
+        }
+
+        .operations {
+            display: flex;
+            padding: 20px 0;
+
+            .sailor-form {
+                width: 30%;
+                margin: 0 10px;
+                border: 1px solid darkgray;
+                border-radius: 2px;
+                padding: 5px 10px;
+    
+                .field {
+                    &:last-child {
+                        text-align: right;
+    
+                        a {
+                            margin: 0 5px;
+                        }
+                    }
+                }
+            }
+    
+            .sailor-list {
+                width: 70%;
+                margin: 0 10px;
+                border: 1px solid darkgray;
+                border-radius: 2px;
+                height: 300px;
+                overflow-y: scroll;
+                
+                .table {
+                    width: 100%;
+                }
+            }
+
+            
+        }
+
+        .sailor-filter {
+            display: flex;
+            padding: 20px 0;
+            width: 100%;
+
+            .sailor-filter-form {
+                width: 30%;
+                margin: 0 10px;
+                border: 1px solid darkgray;
+                border-radius: 2px;
+                padding: 5px 10px;
+            }
+
+            .sailor-filter-table {
+                width: 70%;
+                margin: 0 10px;
+                border: 1px solid darkgray;
+                border-radius: 2px;
+                height: 300px;
+                overflow-y: scroll;
+
+                .table {
+                    width: 100%;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 320px) {
+    .sailor {
+        .sailor-content {
+            .sailor-content-operation {
+                .operation-buttons {
+                    flex-direction: column;
+                    display: flex;
+
+                    a {
+                        margin: 5px 10px;
+                    }
+                }
+            }
+
+            .operations {
+                flex-direction: column;
+
+                .sailor-form {
+                    width: 100%;
+                    margin: 5px 0;
+                }
+
+                .sailor-list {
+                    width: 100%;
+                    margin: 5px 0;
+                }
+            }
+
+            .sailor-filter {
+                flex-direction: column;
+
+                .sailor-filter-form {
+                    width: 100%;
+                    margin: 5px 0;
+                }
+
+                .sailor-filter-table {
+                    width: 100%;
+                    margin: 5px 0;
+                }
+            }
+        }
+    }
+}

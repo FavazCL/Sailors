@@ -1,0 +1,43 @@
+<div class="home">
+  <div class="home-nav">
+    <app-navbar></app-navbar>
+  </div>
+  <div class="home-content">
+    <div class="home-content-sailor">
+      <div class="title">
+        <p class="title is-1">MARINEROS</p>
+        <p class="subtitle is-3">Crea, Editar y elimina marineros.</p>
+      </div>
+      <div class="img">
+        <img src="../../../assets/captain.svg" width="300px" alt="">
+      </div>
+      <div class="go">
+        <a class="button is-warning is-inverted is-outlined" [routerLink]="['/sailors']">GO SAILORS!</a>
+      </div>
+    </div>
+    <div class="home-content-boat">
+      <div class="title">
+        <p class="title is-1">BOTES</p>
+        <p class="subtitle is-3">Crea, Editar y elimina botes.</p>
+      </div>
+      <div class="img">
+        <img src="../../../assets/ship.svg" width="300px" alt="">
+      </div>
+      <div class="go">
+        <a class="button is-primary is-inverted is-outlined" [routerLink]="['/boats']">GO BOATS!</a>
+      </div>
+    </div>
+  </div>
+  <div class="home-contentTwo">
+    <div class="title">
+      <p class="title is-1">MASTER DETAILS</p>
+      <p class="subtitle is-3">Crea, Edita y elimina reservas.</p>
+    </div>
+    <div class="img">
+      <img src="../../../assets/brain(1).svg" width="300px" alt="">
+    </div>
+    <div class="go">
+      <a class="button is-danger is-inverted is-outlined" [routerLink]="['/details']">GO MASTER!</a>
+    </div>
+  </div>
+</div>

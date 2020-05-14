@@ -1,0 +1,228 @@
+<div class="sailor">
+  <app-navbar></app-navbar>
+  <div class="sailor-header">
+    <section class="hero is-medium is-warning is-bold">
+      <div class="hero-body">
+        <div class="container">
+          <h1 class="title has-text-white">
+            Sección de Marineros <i class="fas fa-male"></i>
+          </h1>
+          <h2 class="subtitle has-text-white">
+            Crea, actualice y elimine marineros.
+          </h2>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="sailor-content">
+    <div class="sailor-content-operation">
+      <div class="operation-header">
+        <p class="title is-3">Seleccione una operación:</p>
+        <p class="subtitle is-5">Las operaciones de actualizar y eliminar esta en la tabla de botes. </p>
+      </div>
+      <div class="operation-buttons">
+        <a class="button is-primary" #create (click)="create.show = !create.show">Crear nuevo marino</a>
+        <a class="button is-warning" #list (click)="list.show = !list.show ">Listar marinos</a>
+        <a class="button is-danger" #filter (click)="filter.show = !filter.show ">Filtrar por rating</a>
+      </div>
+    </div>
+    <div class="notification is-success" style="margin: 0 10px" *ngIf="creado">
+      Marinero creado con éxito!
+    </div>
+    <div class="notification is-danger" style="margin: 0 10px" *ngIf="eliminado">
+      Marinero eliminado con éxito!
+    </div>
+    <div class="operations">
+      <div class="sailor-form" *ngIf="!create.show">
+        <form (submit)="createSailor(name.value, rating.value, age.value)">
+          <div class="field">
+            <label class="label">Nombre</label>
+            <div class="control has-icons-left has-icons-right">
+              <input class="input is-success" type="text" placeholder="Ingrese nombre:" #name [(ngModel)]="sailor.name"
+                [ngModelOptions]="{standalone: true}">
+              <span class="icon is-small is-left">
+                <i class="fas fa-user"></i>
+              </span>
+              <span class="icon is-small is-right">
+                <i class="fas fa-check"></i>
+              </span>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label">Calificación</label>
+            <div class="control has-icons-left has-icons-right">
+              <input class="input is-success" type="text" placeholder="Ingrese calificación:" #rating
+                [(ngModel)]="sailor.rating" [ngModelOptions]="{standalone: true}">
+              <span class="icon is-small is-left">
+                <i class="fas fa-star-half-alt"></i>
+              </span>
+              <span class="icon is-small is-right">
+                <i class="fas fa-check"></i>
+              </span>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label">Edad </label>
+            <div class="control has-icons-left has-icons-right">
+              <input class="input is-success" type="text" placeholder="Ingrese edad:" #age [(ngModel)]="sailor.age"
+                [ngModelOptions]="{standalone: true}">
+              <span class="icon is-small is-left">
+                <i class="fas fa-sort-numeric-up-alt"></i>
+              </span>
+              <span class="icon is-small is-right">
+                <i class="fas fa-check"></i>
+              </span>
+            </div>
+          </div>
+
+
+          <div class="field">
+            <button class="button is-success is-outlined" [disabled]="!sailor.name || !sailor.rating || !sailor.age"
+              type="submit">Crear</button>
+          </div>
+        </form>
+      </div>
+      <div class="sailor-list" *ngIf="!list.show">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <!-- <th>ID Marinero</th> -->
+              <th>Nombre</th>
+              <th>Calificación</th>
+              <th>Edad</th>
+              <th>Operaciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let sailor of sailors; let i = index">
+              <th>{{ i }}</th>
+              <!-- <td>{{ sailor.id }}</td> -->
+              <td>{{ sailor.name }}</td>
+              <td>{{ sailor.rating }}</td>
+              <td>{{ sailor.age }}</td>
+              <td>
+                <a class="button is-info" style="margin: 0 5px;" (click)=currentlySailor(sailor)><i
+                    class="fas fa-edit"></i></a>
+                <a class="button is-danger" (click)="deleteSailor(sailor.id)"> <i class="fas fa-trash-alt"></i></a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal {{ edit }} {{ close }}">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+          <div class="notification is-success" style="margin: 5px 0px" *ngIf="actualizar">
+            Marinero actualizado con éxito!
+          </div>
+          <header class="modal-card-head">
+            <p class="modal-card-title">Actualizar Marinero</p>
+            <button class="delete" (click)="closeModal()" aria-label="close"></button>
+          </header>
+          <section class="modal-card-body">
+            <form>
+              <div class="field">
+                <label class="label">Nombre</label>
+                <div class="control has-icons-left has-icons-right">
+                  <input class="input is-success" type="text" placeholder="Ingrese nombre:" #name
+                    [(ngModel)]="sailor.name" [ngModelOptions]="{standalone: true}">
+                  <span class="icon is-small is-left">
+                    <i class="fas fa-user"></i>
+                  </span>
+                  <span class="icon is-small is-right">
+                    <i class="fas fa-check"></i>
+                  </span>
+                </div>
+              </div>
+
+              <div class="field">
+                <label class="label">Calificación</label>
+                <div class="control has-icons-left has-icons-right">
+                  <input class="input is-success" type="text" placeholder="Ingrese calificación:" #rating
+                    [(ngModel)]="sailor.rating" [ngModelOptions]="{standalone: true}">
+                  <span class="icon is-small is-left">
+                    <i class="fas fa-star-half-alt"></i>
+                  </span>
+                  <span class="icon is-small is-right">
+                    <i class="fas fa-check"></i>
+                  </span>
+                </div>
+              </div>
+
+              <div class="field">
+                <label class="label">Edad </label>
+                <div class="control has-icons-left has-icons-right">
+                  <input class="input is-success" type="text" placeholder="Ingrese edad:" #age [(ngModel)]="sailor.age"
+                    [ngModelOptions]="{standalone: true}">
+                  <span class="icon is-small is-left">
+                    <i class="fas fa-sort-numeric-up-alt"></i>
+                  </span>
+                  <span class="icon is-small is-right">
+                    <i class="fas fa-check"></i>
+                  </span>
+                </div>
+              </div>
+            </form>
+          </section>
+          <footer class="modal-card-foot">
+            <button class="button is-success" [disabled]="!sailor.name || !sailor.rating || !sailor.age"
+              (click)="updateSailor(sailor.id, name.value, rating.value, age.value)">Actualizar</button>
+            <button class="button" (click)="closeModal()">Cerrar</button>
+          </footer>
+        </div>
+      </div>
+    </div>
+    <div class="notification is-success" style="margin: 0 10px" *ngIf="filtrado">
+      Filtrado con éxito!
+    </div>
+    <div class="notification is-danger" style="margin: 0 10px" *ngIf="filtradoError">
+      Ha ocurrido un error, el rating ingresado no es valido, intente nuevamente.
+    </div>
+    <div class="sailor-filter" *ngIf="!filter.show">
+      <div class="sailor-filter-form">
+        <form>
+          <div class="field">
+            <label class="label">Filtrar por rating > al parametro ingresado </label>
+            <div class="control has-icons-left has-icons-right">
+              <input class="input is-success" type="number" placeholder="Ingrese rating:" #p_rating>
+              <span class="icon is-small is-left">
+                <i class="fas fa-sort-numeric-up-alt"></i>
+              </span>
+              <span class="icon is-small is-right">
+                <i class="fas fa-check"></i>
+              </span>
+            </div>
+          </div>
+          <div class="field">
+            <button class="button is-success" (click)="getSailorByRating(p_rating.value)">Filtrar</button>
+          </div>
+        </form>
+      </div>
+      <div class="sailor-filter-table">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <!-- <th>ID Marinero</th> -->
+              <th>Nombre</th>
+              <th>Calificación</th>
+              <th>Edad</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let sail of sailors_by_rating; let i = index">
+              <th>{{ i }}</th>
+              <!-- <td>{{ sail.id }}</td> -->
+              <td>{{ sail.name }}</td>
+              <td>{{ sail.rating }}</td>
+              <td>{{ sail.age }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

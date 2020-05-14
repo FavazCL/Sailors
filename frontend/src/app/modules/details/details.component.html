@@ -1,0 +1,264 @@
+<div class="details">
+  <app-navbar></app-navbar>
+  <div class="details-header">
+    <section class="hero is-medium is-danger is-bold">
+      <div class="hero-body">
+        <div class="container">
+          <h1 class="title">
+            Master Details <i class="fas fa-brain"></i>
+          </h1>
+          <h2 class="subtitle">
+            Visualiza toda la información de un marinero, agrega uno nuevo o una nueva reserva.
+          </h2>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="details-content">
+    <div class="details-content-sailor">
+      <div class="sailor-header">
+        <h2 class="title">Seleccione un marinero para mostrar toda su información</h2>
+        <div class="sailor-header-listbox">
+          <div class="field">
+            <div class="control has-icons-left">
+              <div class="select">
+                <select #sailor>
+                  <option *ngFor="let sailor of sailors">
+                    {{ sailor.name }}
+                  </option>
+                </select>
+              </div>
+              <div class="icon is-small is-left">
+                <i class="fas fa-male"></i>
+              </div>
+            </div>
+          </div>
+          <div class="showDetails">
+            <a class="button is-warning" (click)="currentSailor(sailor.value)">Ver detalles</a>
+          </div>
+        </div>
+        <!-- <h2 class="subtitle" style="padding: 10px 0">Operaciones disponibles</h2>
+        <div class="sailor-header-options">
+          <a class="button is-primary is-outlined"><i class="fas fa-plus-circle"></i></a>
+        </div> -->
+      </div>
+      <div class="sailor-content">
+        <div class="sailor-content-header">
+          <h2 class="subtitle"><i class="fas fa-info"></i> Información general </h2>
+          <hr>
+        </div>
+        <div class="sailor-content-info">
+          <article class="message is-dark">
+            <div class="message-header">
+              <p><i class="fas fa-user"></i>
+                {{ ((current_sailor.name) ? current_sailor.name : 'Seleccione un marinero') }}</p>
+            </div>
+            <div class="message-body">
+              <p><i class="fas fa-id-card"></i> <b> ID:</b> {{ ((current_sailor.id) ? current_sailor.id : ' ') }}</p>
+              <p><i class="fas fa-star-half-alt"></i> <b> Rating:</b>
+                {{ ((current_sailor.rating) ? current_sailor.rating : ' ') }}</p>
+              <p><i class="fas fa-sort-numeric-up-alt"></i> <b> Age:</b>
+                {{ ((current_sailor.age) ? current_sailor.age : ' ')}}</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+    <div class="details-content-boat">
+      <div class="boat-content">
+        <div class="boat-content-header">
+          <h2 class="subtitle"><i class="fas fa-ship"></i> Botes arrendados por:
+            {{ ((current_sailor.name) ? current_sailor.name : ' ') }} </h2>
+          <hr>
+        </div>
+        <div class="boat-content-info">
+          <article class="message is-primary" *ngFor="let reserve of reserves">
+            <div class="message-header">
+              <p><i class="fas fa-ship"></i> {{ ((reserve.boat.name) ? reserve.boat.name : ' ') }}</p>
+            </div>
+            <div class="message-body">
+              <!-- <p><i class="fas fa-id-card"></i> <b> ID:</b> {{ ((reserve.boat.id) ? reserve.boat.id : ' ') }}</p> -->
+              <p><i class="fas fa-palette"></i> <b> Color:</b>
+                {{ ((reserve.boat.color) ? reserve.boat.color : ' ') }}</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+    <div class="details-content-reserve">
+      <div class="reserve-content">
+        <div class="reserve-content-header">
+          <h2 class="subtitle"><i class="fas fa-crop-alt"></i> Reservas realizadas por:
+            {{ ((current_sailor.name) ? current_sailor.name : ' ') }} </h2>
+          <a class="button is-primary is-outlined" (click)=createReserve()> <i class="fas fa-plus-circle"></i> &nbsp;
+            Nueva Reserva</a>
+          <hr>
+        </div>
+        <div class="notification is-danger" style="margin: 0 10px" *ngIf="eliminado">
+          Reserva eliminada con éxito!
+        </div>
+        <div class="reserve-content-info">
+          <article class="message is-warning" *ngFor="let reserve of reserves">
+            <div class="message-header"
+              style="justify-content: space-between; width: 250px; flex-wrap: wrap; margin: 0 5px;">
+              <p><i class="far fa-calendar-alt"></i> {{ ((reserve.day) ? reserve.day : ' ') }}</p>
+              <a class="button is-info" (click)=currentlyReserve(reserve)><i class="fas fa-edit"></i></a>
+              <a class="button is-danger" (click)="deleteReserve(reserve.id)"> <i class="fas fa-trash-alt"></i></a>
+
+            </div>
+            <div class="message-body">
+              <!-- <p><i class="fas fa-id-card"></i> <b> ID:</b> {{ ((reserve.id) ? reserve.id : ' ') }}</p> -->
+              <p (click)="reserve.sailor.show = !reserve.sailor.show"><i class="fas fa-user"></i> <b> Marinero:</b>
+                {{ ((reserve.sailor.name) ? reserve.sailor.name : ' ') }}</p>
+              <div *ngIf="reserve.sailor.show">
+                <!-- <p class="has-text-danger"><i class="fas fa-id-card"></i> <b>ID:</b> {{ ((reserve.sailor.id) ? reserve.sailor.id : ' ') }}</p> -->
+                <p style="padding-left: 20px" class="has-text-danger"><i class="fas fa-star-half-alt"></i> <b>
+                    Calificación:</b>
+                  {{ ((reserve.sailor.rating) ? reserve.sailor.rating : ' ') }}</p>
+                <p style="padding-left: 20px" class="has-text-danger"><i class="fas fa-sort-numeric-up-alt"></i> <b>
+                    Edad:</b>
+                  {{ ((reserve.sailor.age) ? reserve.sailor.age : ' ') }}</p>
+              </div>
+              <p (click)="reserve.boat.show = !reserve.boat.show"><i class="fas fa-ship"></i> <b> Bote:</b>
+                {{ ((reserve.boat.name) ? reserve.boat.name : ' ') }}</p>
+              <div *ngIf="reserve.boat.show">
+                <!-- <p class="has-text-danger"><i class="fas fa-id-card"></i> <b>ID:</b> {{ ((reserve.sailor.id) ? reserve.sailor.id : ' ') }}</p> -->
+                <p style="padding-left: 20px" class="has-text-info"><i class="fas fa-palette"></i> <b> Color:</b>
+                  {{ ((reserve.boat.color) ? reserve.boat.color : ' ') }}</p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+    <!-- Create modal -->
+    <div class="modal" [ngClass]="status ? 'is-active' : 'modal-close'">
+      <div class="modal-background"></div>
+
+      <div class="modal-card">
+        <div class="notification is-success" *ngIf="creado">
+          Reserva creada con éxito!
+        </div>
+        <header class="modal-card-head">
+          <p class="modal-card-title"><i class="fas fa-crop-alt"></i> Nueva Reserva</p>
+          <button class="delete" (click)=createReserve() aria-label="close"></button>
+        </header>
+        <section class="modal-card-body">
+          <form>
+            <div class="field">
+              <label class="label">Marinero:</label>
+              <div class="control has-icons-left has-icons-right">
+                <input class="input is-success" type="text" placeholder="Ingrese nombre:" [value]="current_sailor.name"
+                  disabled>
+                <span class="icon is-small is-left">
+                  <i class="fas fa-user"></i>
+                </span>
+                <span class="icon is-small is-right">
+                  <i class="fas fa-check"></i>
+                </span>
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="label">Seleccione la fecha a arrendar:</label>
+              <div class="control has-icons-left has-icons-right">
+                <input class="input is-success" type="date" placeholder="Ingrese fecha:" #Newday>
+                <span class="icon is-small is-left">
+                  <i class="fas fa-palette"></i>
+                </span>
+                <span class="icon is-small is-right">
+                  <i class="fas fa-check"></i>
+                </span>
+              </div>
+            </div>
+            <div class="field" style="padding-bottom: 10px;">
+              <label class="label">Seleccione un bote a arrendar:</label>
+              <div class="control has-icons-left">
+                <div class="select">
+                  <select #Newboat>
+                    <option *ngFor="let boat of boats">
+                      {{ boat.name }}
+                    </option>
+                  </select>
+                </div>
+                <div class="icon is-small is-left">
+                    <i class="fas fa-ship"></i> 
+                </div>
+              </div>
+            </div>
+          </form>
+        </section>
+        <footer class="modal-card-foot">
+          <button class="button is-success"
+            (click)="createNewReserve(Newboat.value, Newday.value, current_sailor.id)">Crear</button>
+          <button class="button" (click)=createReserve()>Cancelar</button>
+        </footer>
+      </div>
+    </div>
+    <!-- Update modal -->
+    <div class="modal" [ngClass]="updateStatus ? 'is-active' : 'modal-close'">
+      <div class="modal-background"></div>
+
+      <div class="modal-card">
+        <div class="notification is-success" *ngIf="actualizar">
+          Reserva actualizada con éxito, presione ver detalles para ver cambios!
+        </div>
+        <header class="modal-card-head">
+          <p class="modal-card-title"><i class="fas fa-crop-alt"></i> Actualizar Reserva</p>
+          <button class="delete" (click)=currentlyReserve() aria-label="close"></button>
+        </header>
+        <section class="modal-card-body">
+          <form>
+            <div class="field">
+              <label class="label">Marinero:</label>
+              <div class="control has-icons-left has-icons-right">
+                <input class="input is-success" type="text" placeholder="Ingrese nombre:" [value]="current_sailor.name"
+                  disabled>
+                <span class="icon is-small is-left">
+                  <i class="fas fa-user"></i>
+                </span>
+                <span class="icon is-small is-right">
+                  <i class="fas fa-check"></i>
+                </span>
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="label">Seleccione la fecha a arrendar:</label>
+              <div class="control has-icons-left has-icons-right">
+                <input class="input is-success" type="date" placeholder="Ingrese fecha:" #day
+                  [value]="current_reserve.day">
+                <span class="icon is-small is-left">
+                  <i class="fas fa-palette"></i>
+                </span>
+                <span class="icon is-small is-right">
+                  <i class="fas fa-check"></i>
+                </span>
+              </div>
+            </div>
+            <div class="field" style="padding-bottom: 10px;">
+              <label class="label">Seleccione un bote a arrendar:</label>
+              <div class="control has-icons-left">
+                <div class="select">
+                  <select #boat>
+                    <option *ngFor="let boat of boats">
+                      {{ boat.name }}
+                    </option>
+                  </select>
+                </div>
+                <div class="icon is-small is-left">
+                    <i class="fas fa-ship"></i> 
+                </div>
+              </div>
+            </div>
+          </form>
+        </section>
+        <footer class="modal-card-foot">
+          <button class="button is-success"
+            (click)="updateReserve(current_reserve.id, current_sailor.id, boat.value, day.value )">Actualizar</button>
+          <button class="button" (click)=currentlyReserve()>Cancelar</button>
+        </footer>
+      </div>
+    </div>
+  </div>
+</div>
