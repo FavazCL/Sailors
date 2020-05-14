@@ -6,6 +6,12 @@
 Aplicación web que permite realizar un `CRUD` entre las entidades `Sailor`, `Boat` y `Reserves`, además de contar con filtros especificos para cada caso, para esta
 aplicación se utilizo un modelo `MVC` y se elaboro una `API RESTFUL`.
 
+## Imagenes de la aplicación
+
+![Screenshot_2020-05-14 Webapp Sailors](https://user-images.githubusercontent.com/34754307/81956241-14586280-95d9-11ea-9444-165f005e3c44.png)
+
+![Screenshot_2020-05-14 Webapp Sailors(1)](https://user-images.githubusercontent.com/34754307/81956238-13bfcc00-95d9-11ea-8438-b5a70705d0ac.png)
+
 ## Requerimientos 📖
 
 Los requerimientos basicos para poder levantar la aplicación es tener instalado: `nodejs` y una buena conexión a internet.
@@ -18,16 +24,16 @@ Los requerimientos basicos para poder levantar la aplicación es tener instalado
 **PASO 2:**
 - Ingresar al directorio `backend` y realizar el siguiente comando:
 
-> sudo sails lift (linux)
+>   npm install
 
-> sails lift (windows)
+Luego:
+
+>   sails lift 
 
 **PASO 3:**
 - Abrir otra pestaña, e ingresar al directorio `frontend` y realizar los siguientes comandos:
 
-> sudo npm install (linux)
-
-> npm install (windows)
+> npm install
 
 Luego:
 
